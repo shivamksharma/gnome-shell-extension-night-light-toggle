@@ -15,6 +15,11 @@ const NativeIndicator = Me.imports.nativeIndicator;
 const INDICATOR_ROLE = 'night-light-toggle';
 
 class NightLightToggleExtension {
+    constructor() {
+        // Mirror the modern Extension API so helpers can read this.metadata.
+        this.metadata = Me.metadata;
+    }
+
     enable() {
         this._settings = ExtensionUtils.getSettings();
 
