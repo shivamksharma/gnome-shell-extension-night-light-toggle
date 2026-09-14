@@ -114,18 +114,20 @@ metadata `shell-version` values would then be wrong for one of the releases.
 
 ## extensions.gnome.org identity
 
-The extension is published on extensions.gnome.org as
-[extension 9142](https://extensions.gnome.org/extension/9142/night-light-toggle/),
-with active packages for GNOME 42–44 and 45–49.
+The extension's UUID is **`night-light-toggle@shivamksharma.github.io`** (see
+`metadata/legacy.json` and `metadata/modern.json`).
 
-EGO identifies an extension by its UUID, so this repository uses the same UUID as
-the published listing: **`nightlighttoggle@sam`** (see `metadata/legacy.json` and
-`metadata/modern.json`). Packages built here therefore update listing 9142
-instead of creating a new extension.
+This UUID does not match the existing extensions.gnome.org listing
+[9142](https://extensions.gnome.org/extension/9142/night-light-toggle/), which
+uses `nightlighttoggle@sam`. EGO identifies an extension by UUID, so uploading
+these packages creates a **new** EGO listing instead of updating 9142. To update
+9142 instead, set the UUID back to `nightlighttoggle@sam` in both metadata files.
 
+The GSettings schema ID and path stay
+`org.gnome.shell.extensions.nightlighttoggle` and are independent of the UUID.
 The published packages declared the schema `gettext-domain`
-`nightlighttoggle@sam`. This repository does not ship or require translations, so
-`gettext-domain` is omitted; the GSettings schema ID and path are unchanged.
+`nightlighttoggle@sam`; this repository does not ship translations, so
+`gettext-domain` is omitted.
 
 ## Known limitations
 

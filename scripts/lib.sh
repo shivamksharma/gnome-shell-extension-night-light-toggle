@@ -9,7 +9,7 @@ ROOT_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
 
 SCHEMA_ID="org.gnome.shell.extensions.nightlighttoggle"
-UUID="nightlighttoggle@sam"
+UUID="night-light-toggle@shivamksharma.github.io"
 
 info() { printf '  %s\n' "$*"; }
 warn() { printf 'warning: %s\n' "$*" >&2; }

@@ -8,7 +8,7 @@ temperature slider to the top bar.
 * Optionally restore the Night Light configuration that was changed while
   toggling when the extension is disabled.
 
-UUID: `nightlighttoggle@sam`
+UUID: `night-light-toggle@shivamksharma.github.io`
 
 ## Supported GNOME versions
 

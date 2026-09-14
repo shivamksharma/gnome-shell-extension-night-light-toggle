@@ -1,5 +1,5 @@
 {
-  "uuid": "nightlighttoggle@sam",
+  "uuid": "night-light-toggle@shivamksharma.github.io",
   "name": "Night Light Toggle",
   "description": "Quick access to GNOME's built-in Night Light feature from the top panel. Toggle Night Light with one click and adjust the color temperature without opening Settings.",
   "shell-version": ["41", "42", "43", "44"],

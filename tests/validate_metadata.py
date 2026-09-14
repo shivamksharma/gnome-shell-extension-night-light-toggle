@@ -14,7 +14,7 @@ import os
 import re
 import sys
 
-EXPECTED_UUID = "nightlighttoggle@sam"
+EXPECTED_UUID = "night-light-toggle@shivamksharma.github.io"
 EXPECTED_SCHEMA = "org.gnome.shell.extensions.nightlighttoggle"
 EXPECTED_URL = "https://github.com/shivamksharma/gnome-shell-extension-night-light-toggle"
 
