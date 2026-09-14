@@ -20,7 +20,7 @@ dependencies so both variants implement the same behaviour.
 | GNOME | Implementation | Status | Tested |
 | ----- | -------------- | ------ | ------ |
 | 41 | Legacy | Supported | No |
-| 42 | Legacy | Supported | Partial |
+| 42 | Legacy | Supported | Yes |
 | 43 | Legacy | Supported | No |
 | 44 | Legacy | Supported | No |
 | 45 | Modern | Supported | No |
@@ -42,8 +42,8 @@ dependencies so both variants implement the same behaviour.
 
 ## Testing
 
-The audit was performed on **GNOME Shell 42.9 with GJS 1.72.4 and GTK 4.6**, so
-only the legacy layer could be exercised locally.
+The audit was performed on **GNOME Shell 42.9 with GJS 1.72.4, GTK 4.6 and
+libadwaita 1.1**, so only the legacy layer could be exercised locally.
 
 What was actually executed:
 
@@ -55,23 +55,38 @@ What was actually executed:
   cleanup, object recreation and a missing indicator.
 * `tests/test-prefs-legacy.js` — the real GNOME 41–44 preferences module was
   loaded under GTK 4.6 and libadwaita 1.1, and both `buildPrefsWidget()` and
-  `fillPreferencesWindow()` were constructed without error. This also caught
-  that `Adw.SwitchRow` does not exist before libadwaita 1.2, which is why the
-  legacy preferences use `Adw.ActionRow` with a switch.
+  `fillPreferencesWindow()` were constructed without error.
+* A **live integration test** on an isolated nested GNOME 42.9 Shell started in
+  Xephyr with throwaway `XDG_DATA_HOME`, `XDG_CONFIG_HOME` and D-Bus session. A
+  helper extension drove the real indicator event handler and it verified:
+  enable, disable, rapid re-enable, toggle ON/OFF/ON, `restore-state = true`
+  (original schedule and enabled state restored), `restore-state = false`
+  (changes kept), toggling while Night Light was already on, and repeated
+  `show-indicator` changes (native suppression install/restore). The extension
+  produced no JS errors and the Shell stayed alive and responsive. The nested
+  Mutter compositor used for this was unstable between runs, so this check is
+  not shipped as an automated test.
+* Manual check in the real GNOME 42.9 session: the package installs, loads on
+  Shell restart, shows the panel indicator and toggles Night Light.
 * `node --check` parsed every source file with its correct module syntax.
 * `glib-compile-schemas --strict --dry-run` validated the GSettings schema, and
   a compiled copy was loaded with `GSETTINGS_SCHEMA_DIR` to check keys and
   defaults.
-* The extension was **not** loaded into a live GNOME Shell session, so the panel
-  button, the native-icon suppression in a real Shell, and the modern
-  preferences window are not runtime-verified.
+
+Bugs found and fixed by this testing:
+
+* The legacy extension object had no `metadata` property, so the indicator
+  constructor threw `TypeError: extension.metadata is undefined`.
+* Legacy preferences used `Adw.SwitchRow`, which does not exist before
+  libadwaita 1.2 (GNOME 42), so GNOME 42 preferences would have failed.
 
 What was not executed and therefore is not claimed as tested:
 
 * Running the extension on GNOME 41, 43–51.
 * Running the modern ESM package inside GNOME Shell 45+.
-* Opening the preferences window on any release.
-* A GNOME Shell restart, session logout/login or the native Night Light menu.
+* Rendering the preferences window (its widgets are constructed by the smoke
+  test, but no window was displayed).
+* Session logout/login and the native Night Light quick settings menu.
 
 ## API transition boundary
 
