@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="night-light-toggle@sam.shell-extensions">
-    <schema id="org.gnome.shell.extensions.nightlighttoggle" path="/org/gnome/shell/extensions/nightlighttoggle/">
-        
-        <!-- Whether to show the indicator in the top panel -->
+<schemalist>
+    <schema id="org.gnome.shell.extensions.nightlighttoggle"
+            path="/org/gnome/shell/extensions/nightlighttoggle/">
+
         <key name="show-indicator" type="b">
             <default>true</default>
-            <summary>Show indicator in top bar</summary>
-            <description>Whether to show the Night Light toggle indicator in the top panel.</description>
+            <summary>Show indicator in the top bar</summary>
+            <description>
+                Whether to show the extension's Night Light toggle in the top bar.
+                While shown, the native GNOME Night Light top bar icon is hidden so
+                that only one Night Light indicator is visible. When disabled the
+                native icon is left untouched.
+            </description>
         </key>
-        
-        <!-- Whether to restore previous Night Light state on disable -->
+
         <key name="restore-state" type="b">
             <default>true</default>
-            <summary>Restore previous state on disable</summary>
-            <description>When enabled, the extension remembers the previous Night Light state and restores GNOME's original behavior (including schedule) when re-enabled.</description>
+            <summary>Restore the previous Night Light configuration on disable</summary>
+            <description>
+                When enabled, the extension remembers the values of the GNOME Night
+                Light settings it changes while toggling and restores them when the
+                extension is disabled. Values that were changed again afterwards are
+                not overwritten. When disabled, the changes made by the extension are
+                kept when the extension is disabled.
+            </description>
         </key>
-        
-        <!-- Stored previous enabled state for restoration -->
-        <key name="previous-enabled-state" type="b">
-            <default>false</default>
-            <summary>Previous Night Light enabled state</summary>
-            <description>Internal key to store the previous Night Light enabled state for restoration.</description>
-        </key>
-        
+
     </schema>
 </schemalist>
