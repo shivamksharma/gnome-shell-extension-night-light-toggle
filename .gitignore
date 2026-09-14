@@ -1,6 +1,7 @@
-# GNOME Shell Extension build artifacts
-schemas/gschemas.compiled
+# Build output
+dist/
 *.zip
+schemas/gschemas.compiled
 
 # System files
 .DS_Store
@@ -11,10 +12,11 @@ Thumbs.db
 .idea/
 *.swp
 *~
-*.md
-!README.md
 
-# NPM (if used in future)
+# Optional tooling
 node_modules/
 package-lock.json
-.coompiled
+
+# Python cache
+__pycache__/
+*.pyc

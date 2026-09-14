@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gjs libglib2.0-bin zip unzip xvfb \
+            gir1.2-gtk-4.0 gir1.2-adw-1
+
+      - name: Run unit tests
+        run: xvfb-run -a ./tests/run-tests.sh
+
+      - name: Validate repository and build packages
+        run: ./scripts/validate.sh
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: dist/*.zip
