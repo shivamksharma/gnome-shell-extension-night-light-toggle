@@ -21,14 +21,14 @@ dependencies so both variants implement the same behaviour.
 | ----- | -------------- | ------ | ------ |
 | 41 | Legacy | Supported | No |
 | 42 | Legacy | Supported | Yes |
-| 43 | Legacy | Supported | No |
-| 44 | Legacy | Supported | No |
+| 43 | Legacy | Supported | Yes (lifecycle) |
+| 44 | Legacy | Supported | Yes (lifecycle) |
 | 45 | Modern | Supported | No |
-| 46 | Modern | Supported | No |
+| 46 | Modern | Supported | Yes (lifecycle) |
 | 47 | Modern | Supported | No |
-| 48 | Modern | Supported | No |
+| 48 | Modern | Supported | Yes (lifecycle) |
 | 49 | Modern | Supported | No |
-| 50 | Modern | Supported | No |
+| 50 | Modern | Supported | Yes (lifecycle) |
 | 51 | Modern | Supported (development release at audit time) | No |
 
 * **Supported** means the implementation is intentionally written for that
@@ -68,6 +68,23 @@ What was actually executed:
   not shipped as an automated test.
 * Manual check in the real GNOME 42.9 session: the package installs, loads on
   Shell restart, shows the panel indicator and toggles Night Light.
+* `tests/container/run-extension-test.sh` — the packaging is loaded into real
+  GNOME Shell containers and enable/disable is cycled three times. Results:
+
+  | Container | GNOME | Package | Result |
+  | --------- | ----- | ------- | ------ |
+  | gnome43 | 43.9 | legacy | PASS |
+  | gnome44 | 44.3 | legacy | PASS |
+  | gnome46 | 46.0 | modern | PASS |
+  | gnome48 | 48.7 | modern | PASS |
+  | gnome50 | 50.1 | modern | PASS |
+
+  The containers use a headless Shell with a dummy login manager, so this
+  verifies the extension lifecycle and that no `JS ERROR` / `Gjs-CRITICAL` is
+  produced. It does not exercise the panel UI, toggling or preferences. The
+  Debian-based containers (43, 48) occasionally killed the headless Mutter
+  during a cycle; those runs contained no extension JS errors and repeated runs
+  passed. The same three-cycle test with a no-op extension also passed.
 * `node --check` parsed every source file with its correct module syntax.
 * `glib-compile-schemas --strict --dry-run` validated the GSettings schema, and
   a compiled copy was loaded with `GSETTINGS_SCHEMA_DIR` to check keys and
@@ -82,8 +99,10 @@ Bugs found and fixed by this testing:
 
 What was not executed and therefore is not claimed as tested:
 
-* Running the extension on GNOME 41, 43–51.
-* Running the modern ESM package inside GNOME Shell 45+.
+* Running the extension on GNOME 41, 45, 47, 49 and 51 (no containers were
+  available for those releases).
+* The panel UI, Night Light toggling and preferences in the modern layer. The
+  modern package was only lifecycle-tested on GNOME 46, 48 and 50.
 * Rendering the preferences window (its widgets are constructed by the smoke
   test, but no window was displayed).
 * Session logout/login and the native Night Light quick settings menu.
